@@ -111,8 +111,11 @@ module Mapi
 
   		str = ''
   		@headers.each do |key, vals|
-        byebug if vals.is_a?(String)
-  			vals.each { |val| str << "#{key}: #{val}\r\n" }
+        if vals.respond_to?(:each)
+  			  vals.each { |val| str << "#{key}: #{val}\r\n" }
+        else
+          str << "#{key}: #{vals}\r\n"
+        end
   		end
   		str << "\r\n" + @body
   	end
