@@ -100,7 +100,7 @@ module Mapi
 			#ensure that all parts are utf-8
 			fallback = Hash.new {'?'}
 			fallback["\u2014"] = "-"
-  			@body = [preamble, parts.map { |part| 
+  			@body = [preamble, parts.map { |part|
 				"\r\n" + part.to_s(opts).encode('UTF-8', fallback: fallback) + "\r\n"
 			}, "--\r\n" + epilogue].
   				flatten.join("\r\n--" + boundary)
@@ -111,6 +111,7 @@ module Mapi
 
   		str = ''
   		@headers.each do |key, vals|
+        byebug if vals.is_a?(String)
   			vals.each { |val| str << "#{key}: #{val}\r\n" }
   		end
   		str << "\r\n" + @body
