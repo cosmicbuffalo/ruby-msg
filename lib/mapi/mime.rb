@@ -99,10 +99,23 @@ module Mapi
         boundary = Mime.make_boundary opts[:boundary_counter] += 1, self
         #ensure that all parts are utf-8
         fallback = Hash.new {'?'}
-        fallback["\u2014"] = "-"
+        fallback["\u2010"] = "-"
+        fallback["\u2011"] = "-"
+        fallback["\u2012"] = "-"
         fallback["\u2013"] = "-"
+        fallback["\u2014"] = "-"
+        fallback["\u2015"] = "-"
         fallback["\u2018"] = "'"
         fallback["\u2019"] = "'"
+        fallback["\u201B"] = "'"
+        fallback["\u201C"] = "\""
+        fallback["\u201D"] = "\""
+        fallback["\u201F"] = "\""
+        fallback["\u2032"] = "'"
+        fallback["\u2033"] = "\""
+        fallback["\u2035"] = "'"
+        fallback["\u2036"] = "\""
+        fallback["\u2043"] = "-"
         @body = [preamble, parts.map { |part|
           "\r\n" + part.to_s(opts).encode('UTF-8', fallback: fallback) + "\r\n"
         }, "--\r\n" + epilogue].
